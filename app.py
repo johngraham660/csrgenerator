@@ -30,6 +30,8 @@ def generate_spark_request():
     '''
     Intention here is to get the CSR and submit a request into Spark.
     We would then return the Spark REQ number to the user
+
+    NOTE: None of this is working - DO NOT USE
     '''
     apikey = 'insert-api-key'
     response = 'get spark response'
