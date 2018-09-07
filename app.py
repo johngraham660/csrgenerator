@@ -25,6 +25,18 @@ def generate_csr():
     response = '\n'.join([csr.csr, csr.private_key])
     return Response(response, mimetype='text/plain')
 
+@app.route('/gen_spark_request', method=['POST'])
+def generate_spark_request():
+    '''
+    Intention here is to get the CSR and submit a request into Spark.
+    We would then return the Spark REQ number to the user
+    '''
+    apikey = 'insert-api-key'
+    response = 'get spark response'
+
+    return render_template('spark_req_number.html')
+
+
 
 if __name__ == '__main__':
     port = int(os.environ.get('FLASK_PORT', 5555))
