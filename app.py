@@ -25,6 +25,7 @@ def generate_csr():
     response = '\n'.join([csr.csr, csr.private_key])
     return Response(response, mimetype='text/plain')
 
+
 @app.route('/gen_spark_request')
 def generate_spark_request():
     
