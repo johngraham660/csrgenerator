@@ -17,6 +17,7 @@ def default_csr_info():
         'CN': 'example.com'
     }
 
+
 class TestCsrGeneration:
     """Tests related to the successful generation of CSRs and keys."""
 
@@ -29,7 +30,7 @@ class TestCsrGeneration:
     def test_keypair_bits(self, default_csr_info, key_size):
         """Test keypair generation with different bit sizes."""
         csr_info = default_csr_info.copy()
-        if key_size != 2048:  # 2048 is the default, no need to explicitly set for it
+        if key_size != 2048:
             csr_info['keySize'] = key_size
         csr_generator = CsrGenerator(csr_info)
         assert csr_generator.keypair.bits() == key_size
@@ -44,30 +45,30 @@ class TestCsrGeneration:
     def test_csr_starts_with(self, default_csr_info):
         """Verify the CSR starts with the correct header."""
         csr_generator = CsrGenerator(default_csr_info)
-        expected_start = b'-----BEGIN CERTIFICATE REQUEST-----' # Changed to bytes
-        print(f"\n--- Debugging test_csr_starts_with ---")
+        expected_start = b'-----BEGIN CERTIFICATE REQUEST-----'
+        print("\n--- Debugging test_csr_starts_with ---")
         print(f"Expected CSR start: '{expected_start}'")
-        print(f"Actual CSR start  : '{csr_generator.csr[:len(expected_start) + 5]}...'") # Print start + a few chars
+        print(f"Actual CSR start  : '{csr_generator.csr[:len(expected_start) + 5]}...'")
         assert csr_generator.csr.startswith(expected_start)
 
     def test_csr_ends_with(self, default_csr_info):
         """Verify the CSR ends with the correct footer."""
         csr_generator = CsrGenerator(default_csr_info)
-        expected_end = b'-----END CERTIFICATE REQUEST-----\n' # Changed to bytes
-        print(f"\n--- Debugging test_csr_ends_with ---")
+        expected_end = b'-----END CERTIFICATE REQUEST-----\n'
+        print("\n--- Debugging test_csr_ends_with ---")
         print(f"Expected CSR end: '{expected_end}' (length: {len(expected_end)})")
-        print(f"Actual CSR end  : '...{csr_generator.csr[-len(expected_end) - 5:]}' (length: {len(csr_generator.csr[-len(expected_end):])})") # Print end + a few chars
+        print(f"Actual CSR end  : '...{csr_generator.csr[-len(expected_end) - 5:]}' (length: {len(csr_generator.csr[-len(expected_end):])})")
         print(f"Actual CSR end (repr): '{repr(csr_generator.csr[-len(expected_end) - 5:])}'")
         assert csr_generator.csr.endswith(expected_end)
 
     def test_private_key_starts_with(self, default_csr_info):
         """Verify the private key starts with an expected header."""
         csr_generator = CsrGenerator(default_csr_info)
-        expected_rsa_start = b'-----BEGIN RSA PRIVATE KEY-----' # Changed to bytes
-        expected_pkcs8_start = b'-----BEGIN PRIVATE KEY-----'   # Changed to bytes
+        expected_rsa_start = b'-----BEGIN RSA PRIVATE KEY-----'
+        expected_pkcs8_start = b'-----BEGIN PRIVATE KEY-----'
         # Use csr_generator.private_key directly for debugging as it's already a byte string
         actual_start_slice = csr_generator.private_key[:len(expected_rsa_start) + 5]
-        print(f"\n--- Debugging test_private_key_starts_with ---")
+        print("\n--- Debugging test_private_key_starts_with ---")
         print(f"Expected RSA start  : '{expected_rsa_start}'")
         print(f"Expected PKCS#8 start: '{expected_pkcs8_start}'")
         print(f"Actual Private Key start (slice): '{actual_start_slice}'")
@@ -77,10 +78,10 @@ class TestCsrGeneration:
     def test_private_key_ends_with(self, default_csr_info):
         """Verify the private key ends with an expected footer."""
         csr_generator = CsrGenerator(default_csr_info)
-        expected_rsa_end = b'-----END RSA PRIVATE KEY-----\n' # Changed to bytes
-        expected_pkcs8_end = b'-----END PRIVATE KEY-----\n'   # Changed to bytes
-        actual_end = csr_generator.private_key[-len(expected_rsa_end) - 5:] # Take a generous slice from the end
-        print(f"\n--- Debugging test_private_key_ends_with ---")
+        expected_rsa_end = b'-----END RSA PRIVATE KEY-----\n'
+        expected_pkcs8_end = b'-----END PRIVATE KEY-----\n'  
+        actual_end = csr_generator.private_key[-len(expected_rsa_end) - 5:]
+        print("\n--- Debugging test_private_key_ends_with ---")
         print(f"Expected RSA end  : '{expected_rsa_end}' (length: {len(expected_rsa_end)})")
         print(f"Expected PKCS#8 end: '{expected_pkcs8_end}' (length: {len(expected_pkcs8_end)})")
         print(f"Actual Private Key end  : '...{actual_end}' (length: {len(csr_generator.private_key[-len(expected_rsa_end):])})")
