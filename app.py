@@ -33,8 +33,8 @@ def generate_spark_request():
     # We would then return the Spark REQ number to the user
     # NOTE: None of this is working - DO NOT USE
 
-    #apikey = 'insert-api-key'
-    #response = 'get spark response'
+    # apikey = 'insert-api-key'
+    # response = 'get spark response'
 
     return render_template('spark_req_number.html')
 
