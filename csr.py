@@ -49,11 +49,13 @@ class CsrGenerator(object):
             except KeyError:
                 if field not in optional:
                     raise
+            except ValueError as e:
+                raise e
 
         try:
             valid['keySize'] = int(valid.get('keySize', self.DEFAULT_KEYSIZE))
-        except:
-            raise ValueError("RSA key size must be an integer")
+        except (ValueError, TypeError):
+            raise ValueError("RSA key size must be an Integer")
 
         return valid
 
